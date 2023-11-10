@@ -4,7 +4,8 @@ import { ContactForm } from 'components/contact-form/contact-form';
 import { ContactList } from 'components/contacts/contact-list';
 import { Filter } from 'components/filter/filter';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact, deleteContact, filterContacts } from 'redux/actions';
+import { addContact, deleteContact } from 'redux/contactsSlice';
+import { changeFilter } from 'redux/filterSlice';
 
 export const Phonebook = () => {
   const contacts = useSelector(state => state.contacts);
@@ -15,6 +16,12 @@ export const Phonebook = () => {
   useEffect(() => {
     localStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts]);
+
+  // useEffect(() => {
+  //   contacts.filter(contact =>
+  //     contact.name.toLowerCase().includes(filter.toLowerCase())
+  //   );
+  // }, [contacts, filter]);
 
   const handleAddContact = values => {
     let check = contacts.find(contact => contact.name === values.name);
@@ -28,11 +35,7 @@ export const Phonebook = () => {
 
   const handleDeleteContact = id => dispatch(deleteContact(id));
 
-  const handleFilter = value => dispatch(filterContacts(value));
-
-  // const filteredContacts = contacts.filter(contact => {
-  //   return contact.name.toLowerCase().includes(filter.toLowerCase());
-  // });
+  const handleFilter = value => dispatch(changeFilter(value));
 
   console.log(contacts);
   console.log(filter);

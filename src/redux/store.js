@@ -1,7 +1,19 @@
-import { devToolsEnhancer } from '@redux-devtools/extension';
-import { createStore } from 'redux';
-import { rootReducer } from './reducer';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { persistCombineReducers } from 'redux-persist';
+import { contactsReducer } from './contactsSlice';
+import { filterReducer } from './filterSlice';
 
-const enhancer = devToolsEnhancer();
+const persistConfig = {
+  key: 'root',
+  storage: localStorage,
+  whitelist: ['contacts'],
+};
 
-export const store = createStore(rootReducer, enhancer);
+const rootReducer = combineReducers({
+  contacts: contactsReducer,
+  filter: filterReducer,
+});
+
+export const store = configureStore({
+  reducer: persistCombineReducers(persistConfig, rootReducer),
+});

@@ -3,12 +3,17 @@ import { Contact } from './contact';
 
 export const ContactList = ({ onDelete }) => {
   const contacts = useSelector(state => state.contacts);
-  const filter = useSelector(state => state.filter);
+  const filterName = useSelector(state => state.filter.name);
+  const filterNumber = useSelector(state => state.filter.number);
 
   let filteredList = contacts;
-  if (filter) {
+  if (filterName) {
     filteredList = contacts.filter(contact =>
-      contact.name.toLowerCase().includes(filter.toLowerCase())
+      contact.name.toLowerCase().includes(filterName.toLowerCase())
+    );
+  } else if (filterNumber) {
+    filteredList = contacts.filter(contact =>
+      contact.number.includes(filterNumber)
     );
   }
 

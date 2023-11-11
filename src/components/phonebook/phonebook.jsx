@@ -5,7 +5,7 @@ import { ContactList } from 'components/contacts/contact-list';
 import { Filter } from 'components/filter/filter';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact, deleteContact } from 'redux/contactsSlice';
-import { changeFilter } from 'redux/filterSlice';
+import { changeFilterName, changeFilterNumber } from 'redux/filterSlice';
 
 export const Phonebook = () => {
   const contacts = useSelector(state => state.contacts);
@@ -28,8 +28,12 @@ export const Phonebook = () => {
 
   const handleDeleteContact = id => dispatch(deleteContact(id));
 
-  const handleFilter = value => {
-    dispatch(changeFilter(value));
+  const handleFilterName = value => {
+    dispatch(changeFilterName(value));
+  };
+
+  const handleFilterNumber = value => {
+    dispatch(changeFilterNumber(value));
   };
 
   return (
@@ -38,7 +42,10 @@ export const Phonebook = () => {
       <ContactForm onAdd={handleAddContact} />
 
       <h2>Contacts</h2>
-      <Filter onFiltered={handleFilter} />
+      <Filter
+        onFilteredName={handleFilterName}
+        onFilteredNumber={handleFilterNumber}
+      />
       <ContactList onDelete={handleDeleteContact} />
     </Container>
   );

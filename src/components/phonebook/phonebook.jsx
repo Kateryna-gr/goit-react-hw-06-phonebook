@@ -9,19 +9,12 @@ import { changeFilter } from 'redux/filterSlice';
 
 export const Phonebook = () => {
   const contacts = useSelector(state => state.contacts);
-  const filter = useSelector(state => state.filter);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     localStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts]);
-
-  // useEffect(() => {
-  //   contacts.filter(contact =>
-  //     contact.name.toLowerCase().includes(filter.toLowerCase())
-  //   );
-  // }, [contacts, filter]);
 
   const handleAddContact = values => {
     let check = contacts.find(contact => contact.name === values.name);
@@ -35,10 +28,9 @@ export const Phonebook = () => {
 
   const handleDeleteContact = id => dispatch(deleteContact(id));
 
-  const handleFilter = value => dispatch(changeFilter(value));
-
-  console.log(contacts);
-  console.log(filter);
+  const handleFilter = value => {
+    dispatch(changeFilter(value));
+  };
 
   return (
     <Container>
@@ -47,7 +39,7 @@ export const Phonebook = () => {
 
       <h2>Contacts</h2>
       <Filter onFiltered={handleFilter} />
-      <ContactList contactList={contacts} onDelete={handleDeleteContact} />
+      <ContactList onDelete={handleDeleteContact} />
     </Container>
   );
 };
